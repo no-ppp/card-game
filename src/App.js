@@ -13,19 +13,65 @@ import card7 from "./assets/images/card7.png";
 import card8 from "./assets/images/card8.png";
 
 const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8];
+
 function generateCards() {
   const cards = [
-    ...cardImages.map((image) => ({ image, id: Math.random() })),
-    ...cardImages.map((image) => ({ image, id: Math.random() })),
+    ...cardImages.map((image, index) => ({ image, id: index, flipped: false })),
+    ...cardImages.map((image, index) => ({
+      image,
+      id: index + 100,
+      flipped: false,
+    })),
   ];
+
   return cards.sort(() => Math.random() - 0.5);
 }
 
 function App() {
   const [cards, setCards] = useState([]);
+  const [flippedCards, setFlippedCards] = useState([]);
+
   useEffect(() => {
     setCards(generateCards());
   }, []);
+
+  const handleCardClick = (cardId) => {
+    if (flippedCards.length === 2) return;
+
+    console.log(flippedCards.length);
+
+    setCards((prevCards) =>
+      prevCards.map((card) =>
+        card.id === cardId ? { ...card, flipped: true } : card,
+      ),
+    );
+
+    setFlippedCards((prevFlippedCards) => {
+      const newFlippedCards = [...prevFlippedCards, cardId];
+
+      if (newFlippedCards.length === 2) {
+        const [firstId, secondId] = newFlippedCards;
+        const firstCard = cards.find((card) => card.id === firstId);
+        const secondCard = cards.find((card) => card.id === secondId);
+
+        if (firstCard.image !== secondCard.image) {
+          setTimeout(() => {
+            setCards((prevCards) =>
+              prevCards.map((card) =>
+                card.id === firstId || card.id === secondId
+                  ? { ...card, flipped: false }
+                  : card,
+              ),
+            );
+          }, 1000);
+        }
+
+        return [];
+      }
+
+      return newFlippedCards;
+    });
+  };
   return (
     <div className="h-screen bg-main-theme">
       <Header />
@@ -34,7 +80,14 @@ function App() {
           <Player />
 
           {cards.map((card, index) => {
-            return <Card key={index} image={card.image} />;
+            return (
+              <Card
+                key={index}
+                image={card.image}
+                flipped={card.flipped}
+                onClick={() => handleCardClick(card.id)}
+              />
+            );
           })}
 
           <Time />
