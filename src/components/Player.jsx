@@ -1,20 +1,51 @@
-import {FaCheck} from "react-icons/fa";
+import { GoCheck } from "react-icons/go";
+import { GoArrowLeft } from "react-icons/go";
+import { useState } from "react";
 
-export function Player(){
-    return (
-        <>
-        <div className='col-span-2'>
-            <form className='flex items-center justify-center space-x-2'>
-                <input
-                    className='h-8 w-32 bg-third-theme rounded-sm shadow-inner transition-all hover:scale-105 font-frijole text-center placeholder-black'
-                    type='text' placeholder='player'/>
-                <FaCheck size={20}/>
-            </form>
-        </div>
-    <div className='col-span-2 text-center'>
-        <p className='font-frijole'> score:</p>
-        <p className='font-frijole'> 321</p>
-    </div>
-        </>
-)
+export function Player() {
+  const [inputValue, setInputValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [points, setPoints] = useState(0);
+  function handleInputChange(e) {
+    e.preventDefault();
+    setInputValue(e.target.value);
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
+    const player_name = inputValue;
+    setInputValue("");
+    setIsFocused(false);
+    console.log(player_name);
+  }
+
+  return (
+    <>
+      <div className="col-span-2">
+        <form
+          noValidate={true}
+          onSubmit={(e) => handleSubmit(e)}
+          className="flex items-center justify-center space-x-2 "
+        >
+          <input
+            onClick={() => setIsFocused(true)}
+            onChange={handleInputChange}
+            className={`h-10 w-32 bg-third-theme rounded-sm shadow-inner font-frijole text-center 
+        ${isFocused ? "h-10 w-32 border-2 animate-pulse-border" : ""} focus:outline-none focus:animate-pulse-border focus:placeholder-black invalid:border-transparent focus:underline`}
+            type="text"
+            placeholder="player"
+          />
+          {!isFocused && <GoArrowLeft size={20} />}
+          {isFocused && (
+            <button>
+              <GoCheck size={20} />{" "}
+            </button>
+          )}
+        </form>
+      </div>
+      <div className="col-span-2 text-center">
+        <p className="font-frijole"> score:</p>
+        <p className="font-frijole"> {points}</p>
+      </div>
+    </>
+  );
 }
