@@ -13,7 +13,7 @@ function App() {
               </h1>
           </div>
           <div className='pt-10 flex justify-center'>
-              <div
+              <diva
                   className="bg-second-theme sm:p-6 sm:pb-4 border-yellow-800 border rounded-xl grid grid-cols-4 sm:gap-4 gap-0 md:w-[80vw] 2xl:w-[55vw] h-auto items-center justify-center shadow-2xl">
                   <div className='col-span-2'>
                       <form className='flex items-center justify-center space-x-2'>
@@ -175,7 +175,7 @@ function App() {
                       <p className='text-2xl'>time:</p>
                         <p className='text-4xl'>&nbsp;32</p>
                   </div>
-              </div>
+              </diva>
           </div>
 
 
