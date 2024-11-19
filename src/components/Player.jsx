@@ -2,10 +2,9 @@ import { GoCheck } from "react-icons/go";
 import { GoArrowLeft } from "react-icons/go";
 import { useState } from "react";
 
-export function Player() {
+export function Player({ score }) {
   const [inputValue, setInputValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  const [points, setPoints] = useState(0);
   function handleInputChange(e) {
     e.preventDefault();
     setInputValue(e.target.value);
@@ -43,8 +42,8 @@ export function Player() {
         </form>
       </div>
       <div className="col-span-2 text-center">
-        <p className="font-frijole"> score:</p>
-        <p className="font-frijole"> {points}</p>
+        <p className="font-frijole"> score: </p>
+        <p className="font-frijole">{score}</p>
       </div>
     </>
   );

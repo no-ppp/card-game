@@ -1,23 +1,22 @@
-import { useState, useEffect } from "react";
+import { IoSettingsOutline } from "react-icons/io5";
 
-export function Time() {
-  const [seconds, setSeconds] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((prevSeconds) => prevSeconds + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-  const resetTimer = () => {
-    setSeconds(0);
-  };
+export function Time({ seconds, onClick, lastScore }) {
   return (
-    <div className="flex justify-center items-center col-span-4 font-frijole">
+    <div className="flex flex-col justify-center items-center col-span-4 font-frijole pb-3">
       <p className="text-2xl">time:</p>
       <p className="text-4xl">{seconds}</p>
-      {/*for testing purpose*/}
-      <button onClick={resetTimer}>aaaa</button>
+      <button
+        className="border-2 rounded-xl hover:scale-110 border-yellow-900"
+        onClick={onClick}
+      >
+        <IoSettingsOutline size={40} />
+      </button>
+      {lastScore && (
+        <>
+          <p className="pt-3">Last Score:</p>
+          <p>{lastScore}</p>
+        </>
+      )}
     </div>
   );
 }
