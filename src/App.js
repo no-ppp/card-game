@@ -1,4 +1,5 @@
-import { useEffect, useState, useReducer } from "react";
+import clickSound from "./assets/sounds/425725__moogy73__click04.wav";
+import { useEffect, useState, useReducer, useRef } from "react";
 import { ACTIONS } from "./Actions/ACTIONS";
 import { scoreMeter } from "./utils/scoreMeter";
 import { Card } from "./components/Card";
@@ -18,7 +19,7 @@ const INITIAL_STATE = {
   choseLevel: true,
   time: 0,
   score: 0,
-  lastScore: null,
+  bestScore: null,
 };
 //-----------------------------------------
 
@@ -28,13 +29,13 @@ function reducer(state, action) {
     case ACTIONS.SET_CARDS:
       const selectedLevel = action.payload;
       const cards = [
-        ...selectedLevel.map((image, index) => ({
+        ...selectedLevel.map((image) => ({
           image,
           id: Date.now() + Math.random(),
           flipped: false,
           selected: false,
         })),
-        ...selectedLevel.map((image, index) => ({
+        ...selectedLevel.map((image) => ({
           image,
           id: Date.now() + Math.random(),
           flipped: false,
@@ -44,7 +45,7 @@ function reducer(state, action) {
       return {
         ...state,
         cards: cards.sort(() => Math.random() - 0.5),
-        allFliped: false,
+        allFlipped: false,
       };
 
     case ACTIONS.SELECT_CARD:
@@ -119,10 +120,12 @@ function reducer(state, action) {
       };
     case ACTIONS.RESET_GAME:
       const lastScore = state.score;
+      const newBestScore =
+        lastScore > state.bestScore ? lastScore : state.bestScore;
       return {
         ...INITIAL_STATE,
         choseLevel: (state.choseLevel = false),
-        lastScore: lastScore,
+        bestScore: newBestScore,
       };
 
     default:
@@ -133,12 +136,14 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const [isClickedBlocked, setClickedBlocked] = useState(false);
+  const clickRef = useRef(null);
 
   useEffect(() => {
+    clickRef.current = new Audio(clickSound);
     if (state.cards.length === 0) {
       dispatch({ type: ACTIONS.SET_CARDS, payload: state.level });
     }
-  }, [state.cards.length]);
+  }, [state.cards.length, state.level]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -163,31 +168,22 @@ function App() {
 
   const handleCardClick = (cardId) => {
     if (!isClickedBlocked) {
+      clickRef.current.currentTime = 0;
+      clickRef.current.play();
       dispatch({ type: ACTIONS.SELECT_CARD, payload: cardId });
     }
   };
   const handleLevelSelection = (selectedLevel) => {
-    let levelCards;
-    switch (selectedLevel) {
-      case "easy":
-        levelCards = easy;
-        break;
-      case "medium":
-        levelCards = medium;
-        break;
-      case "hard":
-        levelCards = hard;
-        break;
-      default:
-        levelCards = easy;
-    }
+    const levelCards = LEVELS[selectedLevel] || LEVELS.easy;
+    clickRef.current.currentTime = 0;
+    clickRef.current.play();
     dispatch({ type: ACTIONS.POP_MENU });
     dispatch({ type: ACTIONS.RESET_GAME });
     dispatch({ type: ACTIONS.SET_CARDS, payload: levelCards });
   };
 
   return (
-    <div className="h-screen bg-main-theme">
+    <div className="h-screen bg-main-theme overflow-y-auto">
       <Header />
       <div className="pt-10 flex justify-center">
         <div className="bg-second-theme sm:p-6 sm:pb-4 border-yellow-800 border rounded-xl grid grid-cols-4 sm:gap-4 gap-0 md:w-[80vw] 2xl:w-[55vw] h-auto items-center justify-center shadow-2xl">
@@ -200,7 +196,9 @@ function App() {
                 image={card.image}
                 flipped={card.flipped}
                 // This statement disable clicking on a valid pair
-                onClick={card.flipped ? null : () => handleCardClick(card.id)}
+                onClick={
+                  card.flipped ? undefined : () => handleCardClick(card.id)
+                }
               />
             );
           })}
@@ -208,7 +206,7 @@ function App() {
           <Time
             onClick={() => dispatch({ type: ACTIONS.POP_MENU })}
             seconds={state.time}
-            lastScore={state.lastScore || null}
+            lastScore={state.bestScore || null}
           />
         </div>
       </div>

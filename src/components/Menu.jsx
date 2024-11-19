@@ -10,7 +10,7 @@ export function Menu({ onContinue, onLevelSelect, goBack, currentScore }) {
             <MdOutlineArrowBack size={50} />
           </button>
           <h2 className="text-xl font-frijole text-center mb-4 text-black">
-            Congratulations you have scored:
+            Your current score !
           </h2>
         </div>
         <h1 className="text-5xl font-frijole text-center mb-4 text-black">

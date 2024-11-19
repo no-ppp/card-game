@@ -1,6 +1,6 @@
 import { IoSettingsOutline } from "react-icons/io5";
 
-export function Time({ seconds, onClick, lastScore }) {
+export function Time({ seconds, onClick, lastScore: bestScore }) {
   return (
     <div className="flex flex-col justify-center items-center col-span-4 font-frijole pb-3">
       <p className="text-2xl">time:</p>
@@ -11,10 +11,10 @@ export function Time({ seconds, onClick, lastScore }) {
       >
         <IoSettingsOutline size={40} />
       </button>
-      {lastScore && (
+      {bestScore && (
         <>
-          <p className="pt-3">Last Score:</p>
-          <p>{lastScore}</p>
+          <p className="pt-3">Best Score:</p>
+          <p>{bestScore}</p>
         </>
       )}
     </div>

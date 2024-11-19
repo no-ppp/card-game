@@ -19,7 +19,7 @@ export function Player({ score }) {
 
   return (
     <>
-      <div className="col-span-2">
+      <div className="col-span-2 pl-2 pt-2 pb-2">
         <form
           noValidate={true}
           onSubmit={(e) => handleSubmit(e)}
@@ -28,7 +28,7 @@ export function Player({ score }) {
           <input
             onClick={() => setIsFocused(true)}
             onChange={handleInputChange}
-            className={`h-10 w-32 bg-third-theme rounded-sm shadow-inner font-frijole text-center 
+            className={`h-10 w-32 bg-third-theme shadow-inner font-frijole text-center  rounded-2xl
         ${isFocused ? "h-10 w-32 border-2 animate-pulse-border" : ""} focus:outline-none focus:animate-pulse-border focus:placeholder-black invalid:border-transparent focus:underline`}
             type="text"
             placeholder="player"
