@@ -8,6 +8,8 @@ import { Player } from "./components/Player";
 import { Header } from "./components/Header";
 import { Menu } from "./components/Menu";
 import { easy, medium, hard } from "./data/levels";
+//TODO implement to reducer func which reset the game after clicking continue
+//TODO in popped menu if the game is done
 
 //-----------------------------------------
 //  | === INITIAL VARS === |
