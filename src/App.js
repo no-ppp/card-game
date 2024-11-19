@@ -12,7 +12,7 @@ import { easy, medium, hard } from "./data/levels";
 //-----------------------------------------
 //  | === INITIAL VARS === |
 const LEVELS = { easy, medium, hard };
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   cards: [],
   allFlipped: false,
   level: easy,
@@ -23,7 +23,7 @@ const INITIAL_STATE = {
 };
 //-----------------------------------------
 
-function reducer(state, action) {
+export function reducer(state, action) {
   switch (action.type) {
     // === GAME LOGIC ===
     case ACTIONS.SET_CARDS:
