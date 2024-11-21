@@ -1,7 +1,9 @@
 # Memory Game
 A fun and challenging memory card matching game built with React.
 
-![Game Demo](./game-demo/play.gif)
+<div style="text-align: center;">
+  <img src="./game-demo/play.gif" width="300" />
+</div>
 
 ## About
 This is a memory card matching game where players have to flip over cards and match pairs based on their images. 
