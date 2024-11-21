@@ -73,4 +73,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 </div>
 
 ## Version
-<p class="text-sm">Current version: 1.0.0</p>
+Current version: 1.0.0
