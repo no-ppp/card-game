@@ -73,4 +73,17 @@ describe("Menu tests", () => {
     //Assert 30 in doc
     expect(currentScore).toBeInTheDocument();
   });
+  it("should check the slider event", () => {
+    const handleVolumeChange = jest.fn();
+
+    const setVolume = jest.fn();
+
+    render(<Menu volume={20} setVolume={setVolume} />);
+
+    const input = screen.getByTestId("volume");
+    fireEvent.change(input, { target: { value: 40 } });
+
+    expect(setVolume).toHaveBeenCalledWith("40");
+    expect(setVolume).toHaveBeenCalledTimes(1);
+  });
 });

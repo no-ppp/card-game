@@ -61,6 +61,7 @@ export function Menu({
           <label className="text-xl font-frijole text-black mb-2">Volume</label>
           <div className="flex flex-col items-center justify-center mt-2 w-full">
             <input
+              data-testid="volume"
               type="range"
               min="0"
               max="100"
