@@ -11,16 +11,15 @@ export function Player({ score }) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    const player_name = inputValue;
     setInputValue("");
     setIsFocused(false);
-    console.log(player_name);
   }
 
   return (
     <>
       <div className="col-span-2 pl-2 pt-2 pb-2">
         <form
+          data-testid="player-form"
           noValidate={true}
           onSubmit={(e) => handleSubmit(e)}
           className="flex items-center justify-center space-x-2 "
@@ -35,7 +34,7 @@ export function Player({ score }) {
           />
           {!isFocused && <GoArrowLeft size={20} />}
           {isFocused && (
-            <button>
+            <button data-testid={"submit-button"}>
               <GoCheck size={20} />{" "}
             </button>
           )}

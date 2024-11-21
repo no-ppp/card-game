@@ -9,7 +9,7 @@ export function Time({ seconds, onClick, lastScore: bestScore }) {
         className="border-2 rounded-xl hover:scale-110 border-yellow-900"
         onClick={onClick}
       >
-        <IoSettingsOutline size={40} />
+        <IoSettingsOutline data-testid="settings-icon" size={40} />
       </button>
       {bestScore && (
         <>

@@ -8,9 +8,6 @@ import { Player } from "./components/Player";
 import { Header } from "./components/Header";
 import { Menu } from "./components/Menu";
 import { easy, medium, hard } from "./data/levels";
-//TODO implement to reducer func which reset the game after clicking continue
-//TODO in popped menu if the game is done
-
 //-----------------------------------------
 //  | === INITIAL VARS === |
 const LEVELS = { easy, medium, hard };
@@ -138,14 +135,16 @@ export function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const [isClickedBlocked, setClickedBlocked] = useState(false);
+  const [volume, setVolume] = useState(50);
   const clickRef = useRef(null);
 
   useEffect(() => {
     clickRef.current = new Audio(clickSound);
+    clickRef.current.volume = volume / 100;
     if (state.cards.length === 0) {
       dispatch({ type: ACTIONS.SET_CARDS, payload: state.level });
     }
-  }, [state.cards.length, state.level]);
+  }, [state.cards.length, state.level, volume]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -187,7 +186,7 @@ function App() {
   return (
     <div className="h-screen bg-main-theme overflow-y-auto">
       <Header />
-      <div className="pt-10 flex justify-center">
+      <div className="pt-10 flex justify-center ">
         <div className="bg-second-theme sm:p-6 sm:pb-4 border-yellow-800 border rounded-xl grid grid-cols-4 sm:gap-4 gap-0 md:w-[80vw] 2xl:w-[55vw] h-auto items-center justify-center shadow-2xl">
           <Player score={state.score} />
 
@@ -218,6 +217,8 @@ function App() {
           goBack={() => dispatch({ type: ACTIONS.POP_MENU })}
           onLevelSelect={handleLevelSelection}
           onContinue={() => dispatch({ type: ACTIONS.POP_MENU })}
+          setVolume={setVolume}
+          volume={volume}
         />
       )}
     </div>
